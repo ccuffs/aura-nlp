@@ -1,0 +1,26 @@
+{
+  "name": "aura-nlp",
+  "version": "1.0.0",
+  "description": "Microservico para processamento de NLP pela assistente virtual Aura",
+  "main": "index.js",
+  "dependencies": {
+    "@nlpjs/basic": "^4.22.0",
+    "@nlpjs/directline-connector": "^4.22.0",
+    "@nlpjs/express-api-server": "^4.22.0",
+    "node-nlp": "^4.22.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccuffs/aura-nlp.git"
+  },
+  "author": "Fernando Bevilacqua",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ccuffs/aura-nlp/issues"
+  },
+  "homepage": "https://github.com/ccuffs/aura-nlp#readme"
+}

@@ -5,3 +5,5 @@ Thumbs.db
 ehthumbs.db
 node_modules/
 .vs/
+/config.json
+/model.nlp
