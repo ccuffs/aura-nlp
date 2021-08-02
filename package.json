@@ -7,6 +7,9 @@
     "@nlpjs/basic": "^4.22.0",
     "@nlpjs/directline-connector": "^4.22.0",
     "@nlpjs/express-api-server": "^4.22.0",
+    "@nlpjs/lang-pt": "^4.22.0",
+    "@nlpjs/qna-importer": "^4.21.1",
+    "express": "^4.17.1",
     "node-nlp": "^4.22.1"
   },
   "devDependencies": {},
