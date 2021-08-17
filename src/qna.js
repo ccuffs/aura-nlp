@@ -7,6 +7,8 @@ async function create() {
     await nlp.train();
 
     return nlp;
+
+    //         const response = await qna.process('pt', req.params.text);
 };
 
 module.exports = {
