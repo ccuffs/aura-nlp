@@ -7,12 +7,17 @@ async function createManager() {
     return manager;
 }
 
+async function process(manager, req) {
+    const response = await manager.process(req.params.text);
+    return response;
+}
+
 async function create(modelPath) {
     const manager = await createManager();
     
     if (!fs.existsSync(modelPath)) {
         console.log(chalk.bold.red('[ERROR] ') + `Model not found: ${modelPath}.`);
-        process.exit(1);
+        return;
     }
 
     manager.load(modelPath);
@@ -57,6 +62,7 @@ async function train(argv) {
 }
 
 module.exports = {
+    process,
     train,
     create,
 }

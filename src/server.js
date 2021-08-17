@@ -28,22 +28,36 @@ async function create(arvg) {
         engines[name] = {
             name: name,
             modelPath: modelPath,
+            module: availableEngines[name],
             instance: await availableEngines[name].create(modelPath),
         };        
     }
 
+    var routesLoaded = 0;
     const app = express();
 
     for(var name in engines) {
         const engine = engines[name];
+
+        if (!engine.instance) {
+            console.log(chalk.bold.yellow('[WARN] ') + `Engine "${name}" has no instance.`);
+            continue;
+        }
+
         const route = '/api/' + name + '/:text';
 
         console.log(chalk.blueBright('[INFO] ') + 'Route available: ' + chalk.yellow(route) + ' ' + chalk.green(name));
 
         app.get(route, async (req, res) => {
-            const actual = await engine.instance.process(req.params.text);
+            const actual = await engine.module.process(engine.instance, req);
             res.json(actual);
         });
+        routesLoaded++;
+    }
+
+    if (routesLoaded == 0) {
+        console.log(chalk.bold.red('[ERROR] ') + 'No routes loaded. Sure --engines is correct?');
+        return;
     }
 
     app.listen(arvg.port, () => {

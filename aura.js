@@ -7,7 +7,7 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
 .usage('Usage: $0 <command> [options]')
 
 // Servidor para receber requisições (e dar respostas com base nos modelos)
-.command('server', 'Inicia o servidor', {
+.command('serve', 'Inicia o servidor', {
     '--port': {
         alias: 'p',
         default: 3000,
@@ -15,7 +15,7 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
     },
     '--engines': {
         alias: 'e',
-        default: 'domain:./data/models/domain.nlp',
+        default: 'domain:./data/models/domain.model,qna:./data/models/qna.model',
         describe: 'Engines que serão carregadas e disponibilizadas no servidor'
     }    
 }, function (argv) { server.create(argv) })
