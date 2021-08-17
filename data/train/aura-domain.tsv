@@ -1,0 +1,7 @@
+type	category	nickname	language	content
+ner	hero	spiderman	en	Spiderman, Spider-man
+ner	hero	iron man	en	Iron Man, Ironman, iron-man
+ner	hero	thor	en	Thor
+ner	food	burger	en	Burguer, Hamburguer
+doc	sawhero		en	I saw %hero% eating %food%
+doc	wanteat		en	I want to eat %food%

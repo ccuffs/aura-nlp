@@ -25,40 +25,70 @@ async function create(modelPath) {
     return manager;
 };
 
+function splitAndTrim(line, delimiter = '\t') {
+    return line.split(delimiter).map(item => item.trim());
+}
+
+function addTrainingPiece(manager, entry) {
+    const type = entry.type.toLowerCase();
+
+    if (type == 'ner') {
+        manager.addNamedEntityText(
+            entry.category,
+            entry.nickname,
+            [entry.language],
+            splitAndTrim(entry.content, ',')
+        );
+
+        console.debug(`[DEBUG] Training piece: ${type} (${entry.language}) -> ${entry.category} / ${entry.nickname}`);
+
+    } else if (type == 'doc') {
+        manager.addDocument(entry.language, entry.content, entry.category);
+        console.debug(`[DEBUG] Training piece: ${type} (${entry.language}) -> ${entry.category} / ${entry.content}.`);
+
+    } else {
+        console.log(chalk.yellow.bold('[WANR] ') + `Training pieces has unknown type: ${type}.`);
+    }
+}
+
 async function train(argv) {
-    const manager = await createManager();
+    const dataset = argv.dataset;
+    
+    if (!fs.existsSync(dataset)) {
+        console.log(chalk.bold.red('[ERROR] ') + `Dataset not found: ${dataset}.`);
+        return;
+    }
 
-    manager.addNamedEntityText(
-        'hero',
-        'spiderman',
-        ['en'],
-        ['Spiderman', 'Spider-man'],
-    );
-    manager.addNamedEntityText(
-        'hero',
-        'iron man',
-        ['en'],
-        ['iron man', 'iron-man'],
-    );
-    manager.addNamedEntityText('hero', 'thor', ['en'], ['Thor']);
-    manager.addNamedEntityText(
-        'food',
-        'burguer',
-        ['en'],
-        ['Burguer', 'Hamburguer'],
-    );
-    manager.addNamedEntityText('food', 'pizza', ['en'], ['pizza']);
-    manager.addNamedEntityText('food', 'pasta', ['en'], ['Pasta', 'spaghetti']);
-    manager.addDocument('en', 'I saw %hero% eating %food%', 'sawhero');
-    manager.addDocument(
-        'en',
-        'I have seen %hero%, he was eating %food%',
-        'sawhero',
-    );
-    manager.addDocument('en', 'I want to eat %food%', 'wanteat');
+    var header = [];
+    var manager = await createManager();    
+    const stream = fs.createReadStream(dataset);
 
-    await manager.train();
-    manager.save(argv.output);
+    stream.on('data', async function(data) {
+        var lines = data.toString().split('\n');
+
+        for(var i = 0; i < lines.length; i++) {
+            var lineParts = splitAndTrim(lines[i]);
+
+            if (header.length === 0) {
+                header = lineParts;
+                continue;
+            }
+
+            // TODO: no futuro, podemos deixar isso mais dinânico
+            addTrainingPiece(manager, {
+                type: lineParts[0],
+                category: lineParts[1],
+                nickname: lineParts[2],
+                language: lineParts[3],
+                content: lineParts[4],
+            });
+        }
+    }); 
+
+    stream.on('end', async function() {
+        await manager.train();
+        manager.save(argv.output);
+    });
 }
 
 module.exports = {

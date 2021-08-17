@@ -29,7 +29,7 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
     },
     '--dataset': {
         alias: 'd',
-        default: './data/train/perguntas.tsv',
+        default: './data/train/aura-domain.tsv',
         describe: 'Arquivo com os dados de treino'
     },
     '--output': {
