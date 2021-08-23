@@ -24,7 +24,7 @@ Feito a instalação das dependências, é necessário obter uma cópia do proje
 
 Para isso, rode:
 
-```
+```bash
 git clone --recurse-submodules https://github.com/ccuffs/aura-nlp && cd aura-nlp
 ```
 
@@ -36,7 +36,7 @@ Isso criará e trocará para a pasta `aura-nlp` com o código do projeto.
 
 Existem várias formas de rodar o projeto, como a api web, treino, etc. Para saber todas as opções, rode:
 
-```
+```bash
 node aura.js
 ```
 
@@ -47,7 +47,7 @@ Todas as funcionalidades são baseadas no formato `node aura.js <comando>`, onde
 
  Para iniciar o servidor web (api REST), rode o seguinte;
 
-```
+```bash
 node aura.js serve
 ```
 
@@ -62,9 +62,9 @@ A API web, com todos os endpoints, estará acessivel em `/api`, por exemplo [loc
 
 Faça um teste acessando [localhost:3000/api/qna/comida+favorita](http://localhost:3000/api/qna/comida+favorita).
 
-Quando o servidor web é iniciado, você pode informar quais engines (e modelos) você deseja através do parâmetro `-e` (ou `--engine=`, cujo formato é `<nome>:/path/para/modelo.nlp, <nom>:/path/para/modelo.nlp, etc`). O exemplo abaixo inicia o servidor web com duas engines (`domain` e `qna`), informando onde os modelos dessas duas engines estão (o format):
+Quando o servidor web é iniciado, você pode informar quais engines (e modelos) você deseja através do parâmetro `-e` (ou `--engine=`, cujo formato é `<nome>:/path/para/modelo.nlp, <nom>:/path/para/modelo.nlp, etc`). O exemplo abaixo inicia o servidor web com duas engines (`domain` e `qna`), informando onde os modelos dessas duas engines estão:
 
-```
+```bash
 node aura.js serve -p 3000 -e "domain:./data/models/domain.model,qna:./data/models/qna.model"
 ```
 
@@ -84,7 +84,7 @@ A melhor forma de manter um dataset para outros contribuirem é utilizar uma pla
 
 Depois de publicar a planilha como TSV, você pode baixar e utilizar ela como dataset. Para isso, na raiz desse repositório, rode o seguinte comando (assumindo que a URL da planilha é a mesma do passo anterior; atualize a URL se sua planilha for diferente):
 
-```
+```bash
 curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vS4GT7aqVyOHEGlSz-FPg1asFpq8ffoFwXFBoNiVQLR8uD6m2usl9t_bBwMm7VnXJoYvUFlV1HJRbJh/pub?gid=0&single=true&output=tsv" > ./data/train/dataset.tsv
 ```  
 
@@ -96,13 +96,13 @@ Para treinar um novo modelo, você precisa especificar a engine e o local onde o
 
 Para treinar um modelo para a engine `domain`, rode o seguinte:
 
-```
+```bash
 node aura.js train --type="domain" --dataset="./data/train/aura-domain.tsv" --output="./data/models/domain.model"
 ```
 
 Para treinar um modelo para a engine `qna`, rode o seguinte:
 
-```
+```bash
 node aura.js train --type="qna" --dataset="./data/train/aura-qna.tsv" --output="./data/models/qna.model"
 ```
 
