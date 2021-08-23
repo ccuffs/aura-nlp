@@ -7,7 +7,7 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
 .usage('Usage: $0 <command> [options]')
 
 // Servidor para receber requisições (e dar respostas com base nos modelos)
-.command('serve', 'Inicia o servidor', {
+.command('serve', 'Inicia o servidor (api REST).', {
     '--port': {
         alias: 'p',
         default: 3000,
@@ -21,7 +21,7 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
 }, function (argv) { server.create(argv) })
 
 // Processo de treinamento de novos modelos
-.command('train', 'Treina um modelo em específico', {
+.command('train', 'Treina um modelo em específico.', {
     '--type': {
         alias: 't',
         default: 'domain',
@@ -40,11 +40,12 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
 }, function (argv) { train.run(argv) })
 
 // Exemplos de utilização da linha de comando principal
-.example('$0 server -p 3000', 'Inicia o servidor com engines default')
-.example('$0 server -p 3000', 'inicia o servidor')
+.example('$0 serve -p 3000', 'Inicia o servidor com engines default')
+.example('$0 serve -p 3000 -e "domain:/path/to/domain.model"', 'Inicia o servidor com a engines "domain" seu respecito modelo (path informado depois do nome da engine).')
+.example('$0 train -t domain -d ./data/train/aura-domain.tsv -o ./data/models/domain.model', 'Treina um modelo para a engine domain.')
 
 // Informações gerais sobre o programa
 .help('h')
 .alias('h', 'help')
-.epilog('(c) 2021 - Aura NLP | github.com/ccuffs/aura-nlp')
+.epilog('Aura NLP | github.com/ccuffs/aura-nlp')
 .argv;
