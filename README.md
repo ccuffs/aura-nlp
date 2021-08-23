@@ -37,7 +37,7 @@ Isso criará e trocará para a pasta `aura-nlp` com o código do projeto.
 Existem várias formas de rodar o projeto, como a api web, treino, etc. Para saber todas as opções, rode:
 
 ```bash
-node aura.js
+node aura.js -h
 ```
 
 Todas as funcionalidades são baseadas no formato `node aura.js <comando>`, onde `<comando>` é o módulo que você deseja executar.

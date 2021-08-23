@@ -3,7 +3,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 
 async function createManager() {
-    const manager = new NlpManager({ languages: ['en'], autoSave: false });
+    const manager = new NlpManager({ languages: ['pt'], autoSave: false });
     return manager;
 }
 

@@ -1,0 +1,270 @@
+{
+  "settings": {
+    "languages": [
+      "pt"
+    ],
+    "autoSave": false,
+    "tag": "nlp",
+    "threshold": 0.5,
+    "autoLoad": true,
+    "modelFileName": "model.nlp",
+    "calculateSentiment": true
+  },
+  "nluManager": {
+    "settings": {
+      "tag": "nlu-manager"
+    },
+    "locales": [
+      "pt"
+    ],
+    "languageNames": {},
+    "domainManagers": {
+      "pt": {
+        "settings": {
+          "locale": "pt",
+          "trainByDomain": false,
+          "tag": "domain-manager-pt",
+          "nluByDomain": {
+            "default": {
+              "className": "NeuralNlu",
+              "settings": {}
+            }
+          },
+          "useStemDict": true
+        },
+        "stemDict": {
+          "%food%,%hero%,com,eu,vi": {
+            "intent": "sawhero",
+            "domain": "default"
+          },
+          "%food%,com,quer": {
+            "intent": "wanteat",
+            "domain": "default"
+          }
+        },
+        "intentDict": {
+          "sawhero": "default",
+          "wanteat": "default"
+        },
+        "sentences": [
+          {
+            "domain": "default",
+            "utterance": "Eu vi %hero% comendo %food%",
+            "intent": "sawhero"
+          },
+          {
+            "domain": "default",
+            "utterance": "Quero comer %food%",
+            "intent": "wanteat"
+          }
+        ],
+        "domains": {
+          "master_domain": {
+            "settings": {
+              "locale": "pt",
+              "tag": "nlu-pt",
+              "keepStopwords": true,
+              "nonefeatureValue": 1,
+              "nonedeltaMultiplier": 1.2,
+              "spellCheck": false,
+              "spellCheckDistance": 1,
+              "filterZeros": true,
+              "log": true
+            },
+            "features": {
+              "eu": 1,
+              "vi": 1,
+              "%hero%": 1,
+              "com": 1,
+              "%food%": 1,
+              "quer": 1
+            },
+            "intents": {
+              "sawhero": 1,
+              "wanteat": 1
+            },
+            "intentFeatures": {
+              "sawhero": {
+                "eu": 1,
+                "vi": 1,
+                "%hero%": 1,
+                "com": 1,
+                "%food%": 1
+              },
+              "wanteat": {
+                "quer": 1,
+                "com": 1,
+                "%food%": 1
+              }
+            },
+            "featuresToIntent": {
+              "eu": [
+                "sawhero"
+              ],
+              "vi": [
+                "sawhero"
+              ],
+              "%hero%": [
+                "sawhero"
+              ],
+              "com": [
+                "sawhero",
+                "wanteat"
+              ],
+              "%food%": [
+                "sawhero",
+                "wanteat"
+              ],
+              "quer": [
+                "wanteat"
+              ]
+            },
+            "neuralNetwork": {
+              "settings": {
+                "locale": "pt",
+                "tag": "nlu-pt",
+                "keepStopwords": true,
+                "nonefeatureValue": 1,
+                "nonedeltaMultiplier": 1.2,
+                "spellCheck": false,
+                "spellCheckDistance": 1,
+                "filterZeros": true,
+                "log": true
+              },
+              "features": [
+                "eu",
+                "vi",
+                "%hero%",
+                "com",
+                "%food%",
+                "quer"
+              ],
+              "intents": [
+                "sawhero",
+                "wanteat"
+              ],
+              "perceptrons": [
+                [
+                  3.824808359146118,
+                  3.824808359146118,
+                  3.824808359146118,
+                  1.1093510389328003,
+                  1.1093510389328003,
+                  -2.7157325744628906,
+                  0.5532254464309857
+                ],
+                [
+                  -2.7073304653167725,
+                  -2.7073304653167725,
+                  -2.7073304653167725,
+                  3.277170181274414,
+                  3.277170181274414,
+                  5.985041618347168,
+                  1.6412891093498523
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "intentDomains": {},
+    "extraSentences": [
+      [
+        "pt",
+        "Eu vi %hero% comendo %food%"
+      ],
+      [
+        "pt",
+        "Quero comer %food%"
+      ]
+    ]
+  },
+  "ner": {
+    "settings": {
+      "tag": "ner",
+      "entityPreffix": "%",
+      "entitySuffix": "%"
+    },
+    "rules": {
+      "pt": {
+        "hero": {
+          "name": "hero",
+          "type": "enum",
+          "rules": [
+            {
+              "option": "harry",
+              "texts": [
+                "Harry Potter",
+                "Potter",
+                "Harry"
+              ]
+            },
+            {
+              "option": "ron",
+              "texts": [
+                "Ron Weasley",
+                "Ron Ron"
+              ]
+            },
+            {
+              "option": "hermione",
+              "texts": [
+                "Hermione Granger"
+              ]
+            }
+          ]
+        },
+        "food": {
+          "name": "food",
+          "type": "enum",
+          "rules": [
+            {
+              "option": "burger",
+              "texts": [
+                "Burguer",
+                "Hamburguer"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "nlgManager": {
+    "settings": {
+      "tag": "nlg-manager"
+    },
+    "responses": {}
+  },
+  "actionManager": {
+    "settings": {
+      "tag": "action-manager"
+    },
+    "actions": {}
+  },
+  "slotManager": {
+    "sawhero": {
+      "hero": {
+        "intent": "sawhero",
+        "entity": "hero",
+        "mandatory": false,
+        "locales": {}
+      },
+      "food": {
+        "intent": "sawhero",
+        "entity": "food",
+        "mandatory": false,
+        "locales": {}
+      }
+    },
+    "wanteat": {
+      "food": {
+        "intent": "wanteat",
+        "entity": "food",
+        "mandatory": false,
+        "locales": {}
+      }
+    }
+  }
+}
