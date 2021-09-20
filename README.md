@@ -28,7 +28,11 @@ Para isso, rode:
 git clone --recurse-submodules https://github.com/ccuffs/aura-nlp && cd aura-nlp
 ```
 
-Isso criará e trocará para a pasta `aura-nlp` com o código do projeto.
+Isso criará e trocará para a pasta `aura-nlp` com o código do projeto. Em seguinda, instale as dependências:
+
+```bash
+npm install
+```
 
 ### 3. Utilizacão
 
@@ -62,10 +66,10 @@ A API web, com todos os endpoints, estará acessivel em `/api`, por exemplo [loc
 
 Faça um teste acessando [localhost:3000/api/qna/comida+favorita](http://localhost:3000/api/qna/comida+favorita).
 
-Quando o servidor web é iniciado, você pode informar quais engines (e modelos) você deseja através do parâmetro `-e` (ou `--engine=`, cujo formato é `<nome>:/path/para/modelo.nlp, <nom>:/path/para/modelo.nlp, etc`). O exemplo abaixo inicia o servidor web com duas engines (`domain` e `qna`), informando onde os modelos dessas duas engines estão:
+Quando o servidor web é iniciado, você pode informar quais engines (e modelos/urls) você deseja através do parâmetro `-e` (ou `--engine=`, cujo formato é `<nome>:<url>:/path/para/modelo.nlp, <nome>:<url>:/path/para/modelo.nlp, etc`). O exemplo abaixo inicia o servidor web com duas engines (`domain` e `qna`), nas urls `/api/domain-url` e `/api/qna-url`, informando onde os modelos dessas duas engines estão:
 
 ```bash
-node aura.js serve -p 3000 -e "domain:./data/models/domain.model,qna:./data/models/qna.model"
+node aura.js serve -p 3000 -e "domain:domain-url:./data/models/domain.model,qna:qna-url:./data/models/qna.model"
 ```
 
 ### 4. Baixando e treinando novos modelos

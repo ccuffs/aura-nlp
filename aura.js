@@ -15,8 +15,8 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
     },
     '--engines': {
         alias: 'e',
-        default: 'domain:./data/models/domain.model,qna:./data/models/qna.model',
-        describe: 'Engines que serão carregadas e disponibilizadas no servidor'
+        default: 'domain:domain:./data/models/domain.model,qna:qna:./data/models/qna.model',
+        describe: 'Engines que serão carregadas e disponibilizadas no servidor através de um rota'
     }    
 }, function (argv) { server.create(argv) })
 
@@ -41,7 +41,7 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
 
 // Exemplos de utilização da linha de comando principal
 .example('$0 serve -p 3000', 'Inicia o servidor com engines default')
-.example('$0 serve -p 3000 -e "domain:/path/to/domain.model"', 'Inicia o servidor com a engines "domain" seu respecito modelo (path informado depois do nome da engine).')
+.example('$0 serve -p 3000 -e "domain:my-url/path/to/domain.model"', 'Inicia o servidor com a engines "domain" disponível em /api/my-url seu respecito modelo (path informado depois do nome da engine).')
 .example('$0 train -t domain -d ./data/train/aura-domain.tsv -o ./data/models/domain.model', 'Treina um modelo para a engine domain.')
 
 // Informações gerais sobre o programa
