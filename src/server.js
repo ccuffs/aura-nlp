@@ -10,7 +10,7 @@ const chalk = require('chalk');
 const express = require('express')
 const { availableEngines } = require('./engines');
 
-function makeServerApp(engines) {
+function makeServerApp(engines, argv) {
     var routesLoaded = 0;
     var registeredRoutes = [];
     
@@ -45,14 +45,14 @@ function makeServerApp(engines) {
         return;
     }
 
-    app.listen(arvg.port, () => {
-        console.log(chalk.blueBright('[INFO] ') + 'Server running at ' + chalk.yellow(`http://localhost:${arvg.port}`));
+    app.listen(argv.port, () => {
+        console.log(chalk.blueBright('[INFO] ') + 'Server running at ' + chalk.yellow(`http://localhost:${argv.port}`));
     });
 }
 
-async function create(arvg) {
+async function create(argv) {
     var engines = {};
-    const requiredEngines = arvg.engines.split(',');
+    const requiredEngines = argv.engines.split(',');
 
     for(var prop in requiredEngines) {
         const requiredInfo = requiredEngines[prop]; // algo como "dominio:rota:/caminho/para/modelo". 
@@ -75,7 +75,7 @@ async function create(arvg) {
         };        
     }
 
-    makeServerApp(engines);
+    makeServerApp(engines, argv);
 }
 
 module.exports = {
