@@ -41,7 +41,7 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
 
 // Exemplos de utilização da linha de comando principal
 .example('$0 serve -p 3000', 'Inicia o servidor com engines default')
-.example('$0 serve -p 3000 -e "domain:my-url/path/to/domain.model"', 'Inicia o servidor com a engines "domain" disponível em /api/my-url seu respecito modelo (path informado depois do nome da engine).')
+.example('$0 serve -p 3000 -e "domain:my-url/path/to/domain.model"', 'Inicia o servidor com a engine "domain" disponível em /api/my-url usando o modelo "domain.model" (path informado depois do nome da engine).')
 .example('$0 train -t domain -d ./data/train/aura-domain.tsv -o ./data/models/domain.model', 'Treina um modelo para a engine domain.')
 
 // Informações gerais sobre o programa

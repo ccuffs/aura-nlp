@@ -40,11 +40,24 @@
           "%food%,com,quer": {
             "intent": "wanteat",
             "domain": "default"
+          },
+          "agor,por,tchau": {
+            "intent": "cumprimento.tchau",
+            "domain": "default"
+          },
+          "feit": {
+            "intent": "cumprimento.tchau",
+            "domain": "default"
+          },
+          "ate,mais,tard": {
+            "intent": "cumprimento.tchau",
+            "domain": "default"
           }
         },
         "intentDict": {
           "sawhero": "default",
-          "wanteat": "default"
+          "wanteat": "default",
+          "cumprimento.tchau": "default"
         },
         "sentences": [
           {
@@ -56,6 +69,21 @@
             "domain": "default",
             "utterance": "Quero comer %food%",
             "intent": "wanteat"
+          },
+          {
+            "domain": "default",
+            "utterance": "Tchau por agora",
+            "intent": "cumprimento.tchau"
+          },
+          {
+            "domain": "default",
+            "utterance": "Feito",
+            "intent": "cumprimento.tchau"
+          },
+          {
+            "domain": "default",
+            "utterance": "Até mais tarde",
+            "intent": "cumprimento.tchau"
           }
         ],
         "domains": {
@@ -77,11 +105,19 @@
               "%hero%": 1,
               "com": 1,
               "%food%": 1,
-              "quer": 1
+              "quer": 1,
+              "tchau": 1,
+              "por": 1,
+              "agor": 1,
+              "feit": 1,
+              "ate": 1,
+              "mais": 1,
+              "tard": 1
             },
             "intents": {
               "sawhero": 1,
-              "wanteat": 1
+              "wanteat": 1,
+              "cumprimento.tchau": 1
             },
             "intentFeatures": {
               "sawhero": {
@@ -95,6 +131,15 @@
                 "quer": 1,
                 "com": 1,
                 "%food%": 1
+              },
+              "cumprimento.tchau": {
+                "tchau": 1,
+                "por": 1,
+                "agor": 1,
+                "feit": 1,
+                "ate": 1,
+                "mais": 1,
+                "tard": 1
               }
             },
             "featuresToIntent": {
@@ -117,6 +162,27 @@
               ],
               "quer": [
                 "wanteat"
+              ],
+              "tchau": [
+                "cumprimento.tchau"
+              ],
+              "por": [
+                "cumprimento.tchau"
+              ],
+              "agor": [
+                "cumprimento.tchau"
+              ],
+              "feit": [
+                "cumprimento.tchau"
+              ],
+              "ate": [
+                "cumprimento.tchau"
+              ],
+              "mais": [
+                "cumprimento.tchau"
+              ],
+              "tard": [
+                "cumprimento.tchau"
               ]
             },
             "neuralNetwork": {
@@ -137,30 +203,68 @@
                 "%hero%",
                 "com",
                 "%food%",
-                "quer"
+                "quer",
+                "tchau",
+                "por",
+                "agor",
+                "feit",
+                "ate",
+                "mais",
+                "tard"
               ],
               "intents": [
                 "sawhero",
-                "wanteat"
+                "wanteat",
+                "cumprimento.tchau"
               ],
               "perceptrons": [
                 [
-                  3.824808359146118,
-                  3.824808359146118,
-                  3.824808359146118,
-                  1.1093510389328003,
-                  1.1093510389328003,
-                  -2.7157325744628906,
-                  0.5532254464309857
+                  3.865339994430542,
+                  3.865339994430542,
+                  3.865339994430542,
+                  1.2049190998077393,
+                  1.2049190998077393,
+                  -2.660508155822754,
+                  -0.1670471876859665,
+                  -0.1670471876859665,
+                  -0.1670471876859665,
+                  -0.2963356077671051,
+                  -0.15619194507598877,
+                  -0.15619194507598877,
+                  -0.15619194507598877,
+                  0.2678262510935928
                 ],
                 [
-                  -2.7073304653167725,
-                  -2.7073304653167725,
-                  -2.7073304653167725,
-                  3.277170181274414,
-                  3.277170181274414,
-                  5.985041618347168,
-                  1.6412891093498523
+                  -2.6695821285247803,
+                  -2.6695821285247803,
+                  -2.6695821285247803,
+                  3.531843900680542,
+                  3.531843900680542,
+                  6.201089859008789,
+                  -0.33989664912223816,
+                  -0.33989664912223816,
+                  -0.33989664912223816,
+                  -0.9083756804466248,
+                  -0.33401015400886536,
+                  -0.33401015400886536,
+                  -0.33401015400886536,
+                  0.9708264083402571
+                ],
+                [
+                  -0.7129314541816711,
+                  -0.7129314541816711,
+                  -0.7129314541816711,
+                  -2.1786601543426514,
+                  -2.1786601543426514,
+                  -1.4253484010696411,
+                  2.8350141048431396,
+                  2.8350141048431396,
+                  2.8350141048431396,
+                  8.151724815368652,
+                  2.8288841247558594,
+                  2.8288841247558594,
+                  2.8288841247558594,
+                  5.828227956800584
                 ]
               ]
             }
@@ -177,6 +281,18 @@
       [
         "pt",
         "Quero comer %food%"
+      ],
+      [
+        "pt",
+        "Tchau por agora"
+      ],
+      [
+        "pt",
+        "Feito"
+      ],
+      [
+        "pt",
+        "Até mais tarde"
       ]
     ]
   },
@@ -235,7 +351,18 @@
     "settings": {
       "tag": "nlg-manager"
     },
-    "responses": {}
+    "responses": {
+      "pt": {
+        "cumprimento.tchau": [
+          {
+            "answer": "Tchau!"
+          },
+          {
+            "answer": "Até breve!"
+          }
+        ]
+      }
+    }
   },
   "actionManager": {
     "settings": {

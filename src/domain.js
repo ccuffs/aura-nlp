@@ -32,6 +32,10 @@ function splitAndTrim(line, delimiter = '\t') {
 function addTrainingPiece(manager, entry) {
     const type = entry.type.toLowerCase();
 
+    if (type.length === 0) {
+        return;
+    }
+
     if (type == 'ner') {
         manager.addNamedEntityText(
             entry.category,
@@ -42,12 +46,17 @@ function addTrainingPiece(manager, entry) {
 
         console.debug(`[DEBUG] Training piece: ${type} (${entry.language}) -> ${entry.category} / ${entry.nickname}`);
 
-    } else if (type == 'doc') {
-        manager.addDocument(entry.language, entry.content, entry.category);
+    } else if (type == 'doc' || type == 'question' || type == 'answer') {
+        if (type == 'answer') {
+            manager.addAnswer(entry.language, entry.category, entry.content);
+        } else {
+            manager.addDocument(entry.language, entry.content, entry.category);
+        }
+
         console.debug(`[DEBUG] Training piece: ${type} (${entry.language}) -> ${entry.category} / ${entry.content}.`);
 
     } else {
-        console.log(chalk.yellow.bold('[WANR] ') + `Training pieces has unknown type: ${type}.`);
+        console.log(chalk.yellow.bold('[WANR] ') + `Training pieces has unknown type: ${type}`);
     }
 }
 
@@ -74,14 +83,17 @@ async function train(argv) {
                 continue;
             }
 
-            // TODO: no futuro, podemos deixar isso mais dinânico
-            addTrainingPiece(manager, {
-                type: lineParts[0],
-                category: lineParts[1],
-                nickname: lineParts[2],
-                language: lineParts[3],
-                content: lineParts[4],
-            });
+            try {
+                addTrainingPiece(manager, {
+                    type: lineParts[0],
+                    category: lineParts[1],
+                    nickname: lineParts[2],
+                    language: lineParts[3],
+                    content: lineParts[4],
+                });
+            } catch (e) {
+                console.log(chalk.red.bold('[ERROR] ') + `Invalid training piece (${dataset} at line ${i}) [${lineParts}]. ` + e);
+            }
         }
     }); 
 
