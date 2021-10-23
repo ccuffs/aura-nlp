@@ -1,0 +1,12 @@
+type	category	nickname	language	content
+ner	hero	harry	pt	Harry Potter, Potter, Harry
+ner	hero	ron	pt	Ron Weasley, Ron Ron
+ner	hero	hermione	pt	Hermione Granger
+ner	food	burger	pt	Burguer, Hamburguer
+doc	sawhero		pt	Eu vi %hero% comendo %food%
+doc	wanteat		pt	Quero comer %food%
+question	cumprimento.tchau		pt	Tchau por agora
+question	cumprimento.tchau		pt	Feito
+question	cumprimento.tchau		pt	Até mais tarde
+answer	cumprimento.tchau		pt	Tchau!
+answer	cumprimento.tchau		pt	Até breve!

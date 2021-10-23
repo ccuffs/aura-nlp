@@ -29,7 +29,7 @@ function splitAndTrim(line, delimiter = '\t') {
     return line.split(delimiter).map(item => item.trim());
 }
 
-function addTrainingPiece(manager, entry) {
+function addTrainingPiece(manager, entry, path) {
     const type = entry.type.toLowerCase();
 
     if (type.length === 0) {
@@ -44,7 +44,7 @@ function addTrainingPiece(manager, entry) {
             splitAndTrim(entry.content, ',')
         );
 
-        console.debug(`[DEBUG] Training piece: ${type} (${entry.language}) -> ${entry.category} / ${entry.nickname}`);
+        console.debug(`[DEBUG] Training piece [${path}]: ${type} (${entry.language}) -> ${entry.category} / ${entry.nickname}`);
 
     } else if (type == 'doc' || type == 'question' || type == 'answer') {
         if (type == 'answer') {
@@ -53,54 +53,93 @@ function addTrainingPiece(manager, entry) {
             manager.addDocument(entry.language, entry.content, entry.category);
         }
 
-        console.debug(`[DEBUG] Training piece: ${type} (${entry.language}) -> ${entry.category} / ${entry.content}.`);
+        console.debug(`[DEBUG] Training piece [${path}]: ${type} (${entry.language}) -> ${entry.category} / ${entry.content}.`);
 
     } else {
-        console.log(chalk.yellow.bold('[WANR] ') + `Training pieces has unknown type: ${type}`);
+        console.log(chalk.yellow.bold('[WANR] ') + `Training piece of [${path}] has unknown type: ${type}`);
     }
 }
 
+function readDirectory(dir) {
+    return new Promise((resolve, reject) => {
+        fs.readdir(dir, (err, files) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(files);
+            }
+        });
+    });
+}
+
+async function loadDatasets(path) {
+    const isDir = fs.lstatSync(path).isDirectory();
+
+    if (!isDir) {
+        return [path];
+    }
+
+    console.log(chalk.blueBright('[INFO] ') + 'Training path ' + chalk.yellow(path) + ' is a directory, multiple files will be used.');
+
+    var datasets = await readDirectory(path);
+    datasets = datasets.map(dataset => {
+        return path + '/' + dataset;
+    });
+
+    return datasets;
+}
+
 async function train(argv) {
-    const dataset = argv.dataset;
+    const path = argv.dataset;
     
-    if (!fs.existsSync(dataset)) {
-        console.log(chalk.bold.red('[ERROR] ') + `Dataset not found: ${dataset}.`);
+    if (!fs.existsSync(path)) {
+        console.log(chalk.bold.red('[ERROR] ') + `Path not found: ${path}`);
         return;
     }
 
-    var header = [];
-    var manager = await createManager();    
-    const stream = fs.createReadStream(dataset);
+    var manager = await createManager();
+    var datasets = await loadDatasets(path);
 
-    stream.on('data', async function(data) {
-        var lines = data.toString().split('\n');
+    console.log(chalk.blueBright('[INFO] ') + 'Files used for trainig: ' + chalk.yellow(datasets.join(', ')));
 
-        for(var i = 0; i < lines.length; i++) {
-            var lineParts = splitAndTrim(lines[i]);
+    await Promise.all(datasets.map(async (dataset) => {
+        return new Promise((resolve, reject) => {
+            var header = [];
+            const stream = fs.createReadStream(dataset);
+    
+            stream.on('data', async function(data) {
+                var lines = data.toString().split('\n');
+    
+                for(var i = 0; i < lines.length; i++) {
+                    var lineParts = splitAndTrim(lines[i]);
+    
+                    if (header.length === 0) {
+                        header = lineParts;
+                        continue;
+                    }
+    
+                    try {
+                        addTrainingPiece(manager, {
+                            type: lineParts[0],
+                            category: lineParts[1],
+                            nickname: lineParts[2],
+                            language: lineParts[3],
+                            content: lineParts[4],
+                        }, dataset);
+                    } catch (e) {
+                        console.log(chalk.red.bold('[ERROR] ') + `Invalid training piece (${dataset} at line ${i}) [${lineParts}]. ` + e);
+                    }
+                }
+            }); 
+    
+            stream.on('end', async function() {
+                resolve();
+            });
+        });
+    }));
 
-            if (header.length === 0) {
-                header = lineParts;
-                continue;
-            }
-
-            try {
-                addTrainingPiece(manager, {
-                    type: lineParts[0],
-                    category: lineParts[1],
-                    nickname: lineParts[2],
-                    language: lineParts[3],
-                    content: lineParts[4],
-                });
-            } catch (e) {
-                console.log(chalk.red.bold('[ERROR] ') + `Invalid training piece (${dataset} at line ${i}) [${lineParts}]. ` + e);
-            }
-        }
-    }); 
-
-    stream.on('end', async function() {
-        await manager.train();
-        manager.save(argv.output);
-    });
+    await manager.train();
+    manager.save(argv.output);
 }
 
 module.exports = {

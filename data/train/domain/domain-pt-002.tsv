@@ -1,0 +1,10 @@
+type	category	nickname	language	content
+ner	hero	snape	pt	Professor Snape, Severo, Severo Snape
+ner	hero	minerva	pt	Professor McGonagall, Minerva, Minerva McGonagall
+ner	food	pasta	pt	Massa, macarronada, macarrão
+doc	herolikes		pt	%hero% gosta de comer %food%
+question	cumprimento.oi		pt	Olá
+question	cumprimento.oi		pt	Oi tudo bem
+question	cumprimento.oi		pt	Oi
+answer	cumprimento.oi		pt	Olá!
+answer	cumprimento.oi		pt	Oii!
