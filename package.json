@@ -17,7 +17,12 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "train:domain": "node aura.js train --type=\"domain\" --dataset=\"./data/train/domain-pt.tsv\" --output=\"./data/models/domain.model\"",
+    "train:domain-dir": "node aura.js train --type=\"domain\" --dataset=\"./data/train/domain\" --output=\"./data/models/domain.model\"",
+    "train:qna": "node aura.js train --type=\"qna\" --dataset=\"./data/train/qna-pt.tsv\" --output=\"./data/models/qna.model\"",
+    "train": "npm run train:domain && npm run train:qna",
+    "serve": "node aura.js serve -e \"domain:domain:./data/models/domain.model,qna:qna:./data/models/qna.model\""
   },
   "repository": {
     "type": "git",
